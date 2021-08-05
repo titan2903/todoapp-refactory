@@ -3,8 +3,8 @@
 ## Installation
 
 ```sh
-git clone
-cd dillinger
+git clone https://github.com/titan2903/todoapp-refactory.git
+cd todoapp-refactory
 go run main.go
 ```
 
