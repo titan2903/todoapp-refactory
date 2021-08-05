@@ -43,9 +43,6 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	return newUser, nil
 }
 
-// mapping struct input ke struct user
-// simpan struct User melalui repository
-
 func(s *service) Login(input LoginInput) (User, error) {
 	email := input.Email
 	password := input.Password
