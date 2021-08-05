@@ -108,7 +108,7 @@ func(h *todoHandler) UpdateTodo(c *gin.Context) {
 
 	updateTodo, err := h.service.UpdateTodo(inputID, inputData)
 	if err != nil {
-		response := helper.ApiResponse("Failed Update Todo	", http.StatusBadRequest, "error", nil)
+		response := helper.ApiResponse("Failed Update Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return;
 	}
