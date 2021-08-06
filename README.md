@@ -17,7 +17,7 @@ go run main.go
 
 ## DB Diagram
 
-this is the database schema between the users and todos tables:
+This is the database schema between the users and todos tables, Relational database is One To Many:
 
 - [dbdiagram] - <= CLICK dbdiagram
 
