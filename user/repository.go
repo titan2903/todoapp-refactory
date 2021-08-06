@@ -5,21 +5,21 @@ import (
 )
 
 
-type Repository interface { //! public Interface
-	Save(user User) (User, error) //! for save of create user to DB
-	FindByEmail(email string) (User, error) //! find user by email in DB 
-	FindByID(ID int) (User, error) //! find user by id in DB
+type Repository interface {
+	Save(user User) (User, error)
+	FindByEmail(email string) (User, error)
+	FindByID(ID int) (User, error)
 }
 
-type repository struct { //! tidak bersifat public
+type repository struct {
 	db *gorm.DB
 }
 
-func NewRepository(db *gorm.DB) *repository { //! membuat object baru dari repository dan nilai db dari repository di isi sesuai parameter di NewRepository
+func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func(r *repository) Save(user User) (User, error) { //! create new user
+func(r *repository) Save(user User) (User, error) {
 	err := r.db.Create(&user).Error
 	if err != nil {
 		return user, err
@@ -28,7 +28,7 @@ func(r *repository) Save(user User) (User, error) { //! create new user
 	return user, nil
 }
 
-func(r *repository) FindByEmail(email string) (User, error){ //! find user by email
+func(r *repository) FindByEmail(email string) (User, error){
 	var user User
 	err := r.db.Where("email = ?", email).Find(&user).Error
 

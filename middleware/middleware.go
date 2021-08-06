@@ -18,13 +18,13 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 
 		if !strings.Contains(authHeader, "Bearer") {
 			response := helper.ApiResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-			c.AbortWithStatusJSON(http.StatusUnauthorized, response) //! menghentikan ke proses selanjutnya jika error
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 
 		//! Bearer tokentokentoken
 		tokenString := ""
-		arrayToken := strings.Split(authHeader, " ") //! memisahkan token dan kata bearer
+		arrayToken := strings.Split(authHeader, " ")
 		if len(arrayToken) == 2 {
 			tokenString = arrayToken[1]
 		}
@@ -33,24 +33,24 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 		fmt.Println(err)
 		if err != nil {
 			response := helper.ApiResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-			c.AbortWithStatusJSON(http.StatusUnauthorized, response) //! menghentikan ke proses selanjutnya jika error
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 
-		claim, ok := token.Claims.(jwt.MapClaims) //! mengambil data token dalam claims / payload
+		claim, ok := token.Claims.(jwt.MapClaims)
 
 		if !ok || !token.Valid {
 			response := helper.ApiResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-			c.AbortWithStatusJSON(http.StatusUnauthorized, response) //! menghentikan ke proses selanjutnya jika error
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 
-		userID := claim["user_id"].(float64) //! mengubah dari string ke integer
+		userID := claim["user_id"].(float64)
 
 		user, err := userService.GetUserByID(int(userID))
 		if err != nil {
 			response := helper.ApiResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-			c.AbortWithStatusJSON(http.StatusUnauthorized, response) //! menghentikan ke proses selanjutnya jika error
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
 

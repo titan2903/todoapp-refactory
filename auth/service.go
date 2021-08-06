@@ -9,8 +9,8 @@ import (
 
 
 type Service interface {
-	GenerateToken(userID int) (string, error) //! data yang ingin di generate
-	ValidateToken(token string) (*jwt.Token, error) //! kenapa menggunakan jwt token karena nanti akan menggunakan methdo dari package jwt
+	GenerateToken(userID int) (string, error)
+	ValidateToken(token string) (*jwt.Token, error)
 }
 
 type jwtService struct {
@@ -19,15 +19,15 @@ type jwtService struct {
 
 var SECRET_KEY = []byte(os.Getenv("SECRET_KEY"))
 
-func NewService() *jwtService { //! bisa memanggil generate token dari package mana pun
+func NewService() *jwtService {
 	return &jwtService{}
 }
 
 func(s *jwtService) GenerateToken(userID int) (string, error) {
 	payload := jwt.MapClaims{}
-	payload["user_id"] = userID //! data yang ingin di masukkan ke token
+	payload["user_id"] = userID
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload) //! generate token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 
 	signedToken, err := token.SignedString(SECRET_KEY)
 	if err != nil {
@@ -46,11 +46,11 @@ func(s *jwtService) ValidateToken(encodeToken string) (*jwt.Token, error) {
 		}
 
 		return []byte(SECRET_KEY), nil
-	}) //! untuk melakukan validasi perlu parse telebih dahulu tokennya
+	})
 
 	if err != nil {
 		return token, err
 	}
 
-	return token, nil //! berhasil di validasi
+	return token, nil
 }

@@ -18,7 +18,7 @@ func NewTodoHandler(service todo.Service) *todoHandler {
 }
 
 func(h *todoHandler) GetTodos(c *gin.Context) {
-	currentUser := c.MustGet("currentUser").(user.User) //! get id ddari user yg login melalui jwt
+	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
 
 	todos, err := h.service.GetTodos(userID)
@@ -44,7 +44,7 @@ func(h *todoHandler) GetTodo(c *gin.Context) {
 		return;
 	}
 
-	currentUser := c.MustGet("currentUser").(user.User) //! get id ddari user yg login melalui jwt
+	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
 
 	todoDetail, err := h.service.GetTodoById(input, userID)
@@ -103,7 +103,7 @@ func(h *todoHandler) UpdateTodo(c *gin.Context) {
 		return;
 	}
 
-	currentUser := c.MustGet("currentUser").(user.User) //! melakukan auth user, hanya user yang memiliki item tsb bisa melakukabn update
+	currentUser := c.MustGet("currentUser").(user.User)
 	inputData.User = currentUser
 
 	updateTodo, err := h.service.UpdateTodo(inputID, inputData)
@@ -127,7 +127,7 @@ func(h *todoHandler) DeleteTodo(c *gin.Context) {
 		return;
 	}
 
-	currentUser := c.MustGet("currentUser").(user.User) //! get id ddari user yg login melalui jwt
+	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
 
 	deleteTodo, err := h.service.DeleteTodo(inputID, userID)

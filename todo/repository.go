@@ -16,14 +16,14 @@ type repository struct {
 	db *gorm.DB
 }
 
-func NewRepository(db *gorm.DB) *repository { //! membuat object baru dari repository dan nilai db dari repository di isi sesuai parameter di NewRepository
+func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
 func(r *repository) FindAll() ([]Todo, error) {
 	var todos []Todo
 
-	err := r.db.Find(&todos).Error //! type harus pointer
+	err := r.db.Find(&todos).Error
 	if err != nil {
 		return todos, err
 	}
@@ -34,7 +34,7 @@ func(r *repository) FindAll() ([]Todo, error) {
 func(r *repository) FindByUserID(userID int) ([]Todo, error) {
 	var todos []Todo
 
-	err := r.db.Where("user_id = ?", userID).Find(&todos).Error //! preload merupakan ngeload relasinya dan mengambil data relasinya
+	err := r.db.Where("user_id = ?", userID).Find(&todos).Error
 	if err != nil {
 		return todos, err
 	}
@@ -45,7 +45,7 @@ func(r *repository) FindByUserID(userID int) ([]Todo, error) {
 func(r *repository) FindByUserIDAndTodoId(ID int, userID int) (Todo, error) {
 	var todo Todo
 
-	err := r.db.Where("user_id = ? AND id = ?", userID, ID).Find(&todo).Error //! preload merupakan ngeload relasinya dan mengambil data relasinya
+	err := r.db.Preload("User").Where("user_id = ? AND id = ?", userID, ID).Find(&todo).Error
 	if err != nil {
 		return todo, err
 	}

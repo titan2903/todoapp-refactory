@@ -21,7 +21,7 @@ func FormatTodo(todo Todo) TodoFormatter {
 }
 
 
-func FormatTodos(todos []Todo) []TodoFormatter { //! mengembalikan array of object
+func FormatTodos(todos []Todo) []TodoFormatter {
 	todosFormatter := []TodoFormatter{}
 
 	for _, todo := range todos {
