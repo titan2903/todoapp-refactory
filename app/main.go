@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"todoapp-refactory/auth"
@@ -64,5 +65,13 @@ func main() {
 	api.PUT("/todos/:id", middleware.AuthMiddleware(authService, userService), todoHandler.UpdateTodo) //! update Todo jika todo sudah selesai maka is_completed = 1 (0: belum selesai, 1: sudah selesai)
 	api.DELETE("/todos/:id", middleware.AuthMiddleware(authService, userService), todoHandler.DeleteTodo)
 
-	router.Run(":8000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	var port string
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	} else {
+		port = "5000"
+	}
+
+	log.Fatal(router.Run(fmt.Sprintf(":%s", port)))
+	// router.Run(":8000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
