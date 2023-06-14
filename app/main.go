@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"todoapp-refactory/auth"
 	"todoapp-refactory/handler"
 	"todoapp-refactory/middleware"
@@ -15,13 +16,12 @@ import (
 )
 
 func main() {
-	var myEnv map[string]string
-	myEnv, err := godotenv.Read()
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	dsnMaster := myEnv["DATABASE_URL"]
+	dsnMaster := os.Getenv("DATABASE_URL")
 	db, errMaster := gorm.Open(postgres.Open(dsnMaster), &gorm.Config{})
 	if errMaster != nil {
 		log.Panic(errMaster)
