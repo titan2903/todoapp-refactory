@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"OAuth/helper"
-	"OAuth/todo"
-	"OAuth/user"
 	"net/http"
+	"todoapp-refactory/helper"
+	"todoapp-refactory/todo"
+	"todoapp-refactory/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +17,7 @@ func NewTodoHandler(service todo.Service) *todoHandler {
 	return &todoHandler{service}
 }
 
-func(h *todoHandler) GetTodos(c *gin.Context) {
+func (h *todoHandler) GetTodos(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
 
@@ -29,11 +29,11 @@ func(h *todoHandler) GetTodos(c *gin.Context) {
 	}
 
 	response := helper.ApiResponse("List of todos", http.StatusOK, "success", todo.FormatTodos(todos))
-	
+
 	c.JSON(http.StatusOK, response)
 }
 
-func(h *todoHandler) GetTodo(c *gin.Context) {
+func (h *todoHandler) GetTodo(c *gin.Context) {
 
 	var input todo.GetTodoDetailInput
 
@@ -41,7 +41,7 @@ func(h *todoHandler) GetTodo(c *gin.Context) {
 	if err != nil {
 		response := helper.ApiResponse("Failed to get detail todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	currentUser := c.MustGet("currentUser").(user.User)
@@ -51,14 +51,14 @@ func(h *todoHandler) GetTodo(c *gin.Context) {
 	if err != nil {
 		response := helper.ApiResponse("Failed to get detail todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
-	} 
+		return
+	}
 
 	response := helper.ApiResponse("Success get todo detail", http.StatusOK, "success", todo.FormatTodoDetail(todoDetail))
 	c.JSON(http.StatusOK, response)
 }
 
-func(h *todoHandler) CreateTodo(c *gin.Context) {
+func (h *todoHandler) CreateTodo(c *gin.Context) {
 	var input todo.CreateTodoInput
 
 	err := c.ShouldBindJSON(&input)
@@ -66,7 +66,7 @@ func(h *todoHandler) CreateTodo(c *gin.Context) {
 		errors := helper.FormatValidationError(err)
 		response := helper.ApiResponse("Failed Create Todo", http.StatusBadRequest, "error", errors)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	currentUser := c.MustGet("currentUser").(user.User)
@@ -76,7 +76,7 @@ func(h *todoHandler) CreateTodo(c *gin.Context) {
 	if err != nil {
 		response := helper.ApiResponse("Failed Create Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	response := helper.ApiResponse("Success Create Todo", http.StatusOK, "success", todo.FormatTodo(newTodo))
@@ -84,14 +84,14 @@ func(h *todoHandler) CreateTodo(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func(h *todoHandler) UpdateTodo(c *gin.Context) {
+func (h *todoHandler) UpdateTodo(c *gin.Context) {
 
 	var inputID todo.GetTodoDetailInput
 	err := c.ShouldBindUri(&inputID)
 	if err != nil {
 		response := helper.ApiResponse("Failed to update Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	var inputData todo.UpdateTodoInput
@@ -100,7 +100,7 @@ func(h *todoHandler) UpdateTodo(c *gin.Context) {
 		errors := helper.FormatValidationError(err)
 		response := helper.ApiResponse("Failed Update Todo", http.StatusBadRequest, "error", errors)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	currentUser := c.MustGet("currentUser").(user.User)
@@ -110,7 +110,7 @@ func(h *todoHandler) UpdateTodo(c *gin.Context) {
 	if err != nil {
 		response := helper.ApiResponse("Failed Update Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	response := helper.ApiResponse("Success Update Todo	", http.StatusOK, "success", todo.FormatTodo(updateTodo))
@@ -118,13 +118,13 @@ func(h *todoHandler) UpdateTodo(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func(h *todoHandler) DeleteTodo(c *gin.Context) {
+func (h *todoHandler) DeleteTodo(c *gin.Context) {
 	var inputID todo.GetTodoDetailInput
 	err := c.ShouldBindUri(&inputID)
 	if err != nil {
 		response := helper.ApiResponse("Failed to delete Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	currentUser := c.MustGet("currentUser").(user.User)
@@ -134,7 +134,7 @@ func(h *todoHandler) DeleteTodo(c *gin.Context) {
 	if err != nil {
 		response := helper.ApiResponse("Failed Delete Todo", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
-		return;
+		return
 	}
 
 	response := helper.ApiResponse("Success Delete Todo", http.StatusOK, "success", todo.FormatTodo(deleteTodo))

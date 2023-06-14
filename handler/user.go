@@ -1,14 +1,13 @@
 package handler
 
 import (
-	"OAuth/auth"
-	"OAuth/helper"
-	"OAuth/user"
 	"net/http"
+	"todoapp-refactory/auth"
+	"todoapp-refactory/helper"
+	"todoapp-refactory/user"
 
 	"github.com/gin-gonic/gin"
 )
-
 
 type userHandler struct {
 	userService user.Service
@@ -19,15 +18,15 @@ func NewUserHandler(userService user.Service, authService auth.Service) *userHan
 	return &userHandler{userService, authService}
 }
 
-func(h *userHandler) RegisterUser(c *gin.Context) {
+func (h *userHandler) RegisterUser(c *gin.Context) {
 	/*
-		tangkap input dari user
-	 	map input dari user ke struct RegisterUserInput
-	 	struct di atas passing sebagai parameter service
+			tangkap input dari user
+		 	map input dari user ke struct RegisterUserInput
+		 	struct di atas passing sebagai parameter service
 	*/
 
 	var input user.RegisterUserInput
-	
+
 	err := c.ShouldBindJSON(&input) //! validasi di lakukan di sini
 
 	if err != nil {
@@ -61,8 +60,7 @@ func(h *userHandler) RegisterUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-
-func(h *userHandler) Login(c *gin.Context) {
+func (h *userHandler) Login(c *gin.Context) {
 	var input user.LoginInput
 
 	err := c.ShouldBindJSON(&input)
@@ -97,8 +95,7 @@ func(h *userHandler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-
-func(h *userHandler) CheckEmailHasBeenRegister(c *gin.Context) {
+func (h *userHandler) CheckEmailHasBeenRegister(c *gin.Context) {
 
 	var input user.CheckEmailInput
 
@@ -134,7 +131,7 @@ func(h *userHandler) CheckEmailHasBeenRegister(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func(h *userHandler) FetchUser(c *gin.Context) {
+func (h *userHandler) FetchUser(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(user.User)
 	formatter := user.FormatFetchUser(currentUser)
 
