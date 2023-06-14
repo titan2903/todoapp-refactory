@@ -21,13 +21,6 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// dbPassword := myEnv["DB_PASSWORD"]
-	// dbHost := myEnv["DB_HOST"]
-	// dbName := myEnv["DB_NAME"]
-	// dsn := fmt.Sprintf("root:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbPassword, dbHost, dbName)
-	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	// dsn := fmt.Sprintf("host=%s user=postgres password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Shanghai", dbHost, dbPassword, dbName)
-	// db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	dsnMaster := myEnv["DATABASE_URL"]
 	db, errMaster := gorm.Open(postgres.Open(dsnMaster), &gorm.Config{})
 	if errMaster != nil {
